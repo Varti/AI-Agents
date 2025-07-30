@@ -1,10 +1,10 @@
 import streamlit as st
 import pandas as pd
-import openai
+from openai import OpenAI
 import os
 
 # Set your OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+OpenAI.api_key = os.getenv("OPENAI_API_KEY")
 
 # Title of the app
 st.title("Data Exploration and Insights Agent")
@@ -42,8 +42,9 @@ def generate_insights(df, question):
     Question: {question}\n
     Provide a concise and insightful answer.
     """
-    
-    response = openai.ChatCompletion.create(
+    client = OpenAI()
+
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are a helpful data analyst."},
@@ -51,6 +52,9 @@ def generate_insights(df, question):
         ],
         max_tokens=300
     )
+
+    insight = response.choices[0].message.content
+
     return response['choices'][0]['message']['content']
 
 # Main logic
