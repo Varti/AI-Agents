@@ -2,9 +2,17 @@ import streamlit as st
 import pandas as pd
 from openai import OpenAI
 import os
+from dotenv import load_dotenv
+
+
+load_dotenv()  # Load variables from .env
+
+api_key = os.getenv("OPENAI_API_KEY")
+
 
 # Set your OpenAI API key
-OpenAI.api_key = os.getenv("OPENAI_API_KEY")
+# OpenAI.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Title of the app
 st.title("Data Exploration and Insights Agent")
