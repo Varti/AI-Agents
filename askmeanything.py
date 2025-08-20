@@ -72,7 +72,7 @@ def agent(user_input):   #Ask LLM if it needs math, wiki or direct answer?
 #Title of the app
 st.title("Ask Me Anything")
 
-st.subheader("WWhat would you like to find out?")
+st.subheader("What would you like to find out?")
 user_question = st.text_input("Enter your question")
 if user_question:
     with st.spinner("Generating response..."):
@@ -83,3 +83,4 @@ if user_question:
 # else:
 
 #     st.info("I don't understand your question, please try again")
+
