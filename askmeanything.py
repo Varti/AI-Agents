@@ -80,5 +80,6 @@ if user_question:
         st.markdown("### Response")
         st.write(reply)
 
-else:
-    st.info("I don't understand your question, please try again")
+# else:
+
+#     st.info("I don't understand your question, please try again")
