@@ -6,7 +6,13 @@ import streamlit as st
 
 #Load environment variable from .env file
 load_dotenv()
-api_key = os.getenv("AZURE_OPENAI_API_KEYAZURE_OPENAI_ENDPOINT")
+# api_key = os.getenv("AZURE_OPENAI_API_KEYAZURE_OPENAI_ENDPOINT")
+
+openai.api_key = os.getenv("AZURE_OPENAI_API_KEY")
+openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
+openai.api_type = "azure"
+openai.api_version = "2023-07-01-preview"
+
 
 #Tool 1: calculator
 def calculator_tool(expression:str)-> str:
@@ -83,4 +89,5 @@ if user_question:
 # else:
 
 #     st.info("I don't understand your question, please try again")
+
 
