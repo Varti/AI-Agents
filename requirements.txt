@@ -3,5 +3,6 @@ pandas
 openai
 openpyxl
 wikipedia
-dotenv
+python-dotenv
 numpy
+
