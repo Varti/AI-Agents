@@ -1,4 +1,5 @@
 import wikipedia
+import openai
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
@@ -89,6 +90,7 @@ if user_question:
 # else:
 
 #     st.info("I don't understand your question, please try again")
+
 
 
 
