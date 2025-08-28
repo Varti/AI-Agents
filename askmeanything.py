@@ -9,10 +9,10 @@ import streamlit as st
 load_dotenv()
 # api_key = os.getenv("AZURE_OPENAI_API_KEYAZURE_OPENAI_ENDPOINT")
 
-openai.api_key = os.getenv("AZURE_OPENAI_API_KEY")
-openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
-openai.api_type = "azure"
-openai.api_version = "2023-07-01-preview"
+api_key = os.getenv("AZURE_OPENAI_API_KEY")
+api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
+api_type = "azure"
+api_version = "2023-07-01-preview"
 
 
 #Tool 1: calculator
@@ -33,7 +33,7 @@ def wiki_tool(query:str)-> str:
     
 
 #Defining Agent
-client = OpenAI(api_key = openai.api_key)
+client = OpenAI(api_key = api_key)
 def agent(user_input):   #Ask LLM if it needs math, wiki or direct answer?
     prompt = f""" You are an AI agent. Decide if the user query needs :
                     1. Calculator
@@ -90,6 +90,7 @@ if user_question:
 # else:
 
 #     st.info("I don't understand your question, please try again")
+
 
 
 
