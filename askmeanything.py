@@ -52,7 +52,7 @@ def agent(user_input):   #Ask LLM if it needs math, wiki or direct answer?
                     User: "What is 10 -8?" -> calculate 10-8
                 Query : {user_input}
                 Answer only with 'calculator', 'wikipedia' or 'AI generated'."""
-    decision = client.chat.completions.creat(
+    decision = client.chat.completions.create(
         model = "gpt-4o-mini",
         messages = [{"role":"user","content":prompt}])
     
@@ -60,7 +60,7 @@ def agent(user_input):   #Ask LLM if it needs math, wiki or direct answer?
     print(f"Agent Decision: ",tool_choice)
     #call tool if needed
     if tool_choice.startswith("calculator"):
-        response = client.chat.completions.creat(model= "gpt-4o-mini",messages = [{"role":"user",
+        response = client.chat.completions.create(model= "gpt-4o-mini",messages = [{"role":"user",
                      "content": f"Extract the pure math expression from: {user_input}."
                      "Return only the expression in ASCII. No LaTeX or words"}])
         expression = response.choices[0].message.content.strip()
@@ -70,7 +70,7 @@ def agent(user_input):   #Ask LLM if it needs math, wiki or direct answer?
         return "Answer:" + wiki_tool(user_input)
     
     else:
-        response = client.chat.completions.creat(               #LLM replies 
+        response = client.chat.completions.create(               #LLM replies 
             model = "gpt-4o-mini",
             messages= [{"role":"user","content": user_input}]
         )
@@ -97,6 +97,7 @@ if user_question:
 # else:
 
 #     st.info("I don't understand your question, please try again")
+
 
 
 
