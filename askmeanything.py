@@ -1,6 +1,6 @@
 import wikipedia
 import openai
-from openai import OpenAI
+# from openai import OpenAI
 from dotenv import load_dotenv
 import os
 import streamlit as st
@@ -9,10 +9,10 @@ import streamlit as st
 load_dotenv()
 # api_key = os.getenv("AZURE_OPENAI_API_KEYAZURE_OPENAI_ENDPOINT")
 
-api_key = os.getenv("AZURE_OPENAI_API_KEY")
-api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
-api_type = "azure"
-api_version = "2023-07-01-preview"
+openai.api_key = os.getenv("AZURE_OPENAI_API_KEY")
+openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
+openai.api_type = "azure"
+openai.api_version = "2023-07-01-preview"
 
 
 #Tool 1: calculator
@@ -45,7 +45,7 @@ def agent(user_input):   #Ask LLM if it needs math, wiki or direct answer?
                     User: "What is 10 -8?" -> calculate 10-8
                 Query : {user_input}
                 Answer only with 'calculator', 'wikipedia' or 'AI generated'."""
-    decision = client.chat.completions.create(
+    decision = openai.ChatCompletion.create(
         model = "gpt-4o-mini",
         messages = [{"role":"user","content":prompt}])
     
@@ -53,7 +53,7 @@ def agent(user_input):   #Ask LLM if it needs math, wiki or direct answer?
     print(f"Agent Decision: ",tool_choice)
     #call tool if needed
     if tool_choice.startswith("calculator"):
-        response = client.chat.completions.create(model= "gpt-4o-mini",messages = [{"role":"user",
+        response = openai.ChatCompletion.create(model= "gpt-4o-mini",messages = [{"role":"user",
                      "content": f"Extract the pure math expression from: {user_input}."
                      "Return only the expression in ASCII. No LaTeX or words"}])
         expression = response.choices[0].message.content.strip()
@@ -63,7 +63,7 @@ def agent(user_input):   #Ask LLM if it needs math, wiki or direct answer?
         return "Answer:" + wiki_tool(user_input)
     
     else:
-        response = client.chat.completions.create(               #LLM replies 
+        response = openai.ChatCompletion.create(               #LLM replies 
             model = "gpt-4o-mini",
             messages= [{"role":"user","content": user_input}]
         )
@@ -90,6 +90,7 @@ if user_question:
 # else:
 
 #     st.info("I don't understand your question, please try again")
+
 
 
 
