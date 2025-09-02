@@ -33,7 +33,7 @@ def wiki_tool(query:str)-> str:
     
 
 #Defining Agent
-client = OpenAI(api_key = api_key)
+# client = OpenAI(api_key = api_key)
 def agent(user_input):   #Ask LLM if it needs math, wiki or direct answer?
     prompt = f""" You are an AI agent. Decide if the user query needs :
                     1. Calculator
@@ -46,14 +46,14 @@ def agent(user_input):   #Ask LLM if it needs math, wiki or direct answer?
                 Query : {user_input}
                 Answer only with 'calculator', 'wikipedia' or 'AI generated'."""
     decision = openai.ChatCompletion.create(
-        model = "gpt-4o-mini",
+        engine = "gpt-4o-mini",
         messages = [{"role":"user","content":prompt}])
     
     tool_choice = decision.choices[0].message.content.strip().lower()
     print(f"Agent Decision: ",tool_choice)
     #call tool if needed
     if tool_choice.startswith("calculator"):
-        response = openai.ChatCompletion.create(model= "gpt-4o-mini",messages = [{"role":"user",
+        response = openai.ChatCompletion.create(engine= "gpt-4o-mini",messages = [{"role":"user",
                      "content": f"Extract the pure math expression from: {user_input}."
                      "Return only the expression in ASCII. No LaTeX or words"}])
         expression = response.choices[0].message.content.strip()
@@ -64,7 +64,7 @@ def agent(user_input):   #Ask LLM if it needs math, wiki or direct answer?
     
     else:
         response = openai.ChatCompletion.create(               #LLM replies 
-            model = "gpt-4o-mini",
+            engine = "gpt-4o-mini",
             messages= [{"role":"user","content": user_input}]
         )
 
@@ -90,6 +90,7 @@ if user_question:
 # else:
 
 #     st.info("I don't understand your question, please try again")
+
 
 
 
