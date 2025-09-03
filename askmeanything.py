@@ -12,8 +12,8 @@ load_dotenv()
 
 client = OpenAI(
     api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-    base_url=os.getenv("AZURE_OPENAI_ENDPOINT") + "/openai/deployments/gpt-4o-mini",
-    api_version="2023-07-01-preview"
+    base_url=os.getenv("AZURE_OPENAI_ENDPOINT") + "/openai/deployments/gpt-4o-mini"
+    # api_version="2023-07-01-preview"
     # azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
 )
 
@@ -100,6 +100,7 @@ if user_question:
 # else:
 
 #     st.info("I don't understand your question, please try again")
+
 
 
 
