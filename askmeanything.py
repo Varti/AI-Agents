@@ -1,7 +1,7 @@
 import wikipedia
 # import openai
-from openai import OpenAI
-# from openai import AzureOpenAI
+# from openai import OpenAI
+from openai import AzureOpenAI
 from dotenv import load_dotenv
 import os
 import streamlit as st
@@ -10,11 +10,11 @@ import streamlit as st
 load_dotenv()
 # api_key = os.getenv("AZURE_OPENAI_API_KEYAZURE_OPENAI_ENDPOINT")
 
-client = OpenAI(
+client = AzureOpenAI(
     api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-    base_url=os.getenv("AZURE_OPENAI_ENDPOINT") + "/openai/deployments/gpt-4o-mini/chat/completions"
-    # api_version="2023-07-01-preview"
-    # azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+    # base_url=os.getenv("AZURE_OPENAI_ENDPOINT") + "/openai/deployments/gpt-4o-mini/chat/completions"
+    api_version="2024-08-06-preview",
+    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
 )
 
 # openai.api_key = os.getenv("AZURE_OPENAI_API_KEY")
@@ -100,6 +100,7 @@ if user_question:
 # else:
 
 #     st.info("I don't understand your question, please try again")
+
 
 
 
