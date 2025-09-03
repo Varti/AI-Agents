@@ -1,6 +1,4 @@
 import wikipedia
-# import openai
-# from openai import OpenAI
 from openai import AzureOpenAI
 from dotenv import load_dotenv
 import os
@@ -10,18 +8,18 @@ import streamlit as st
 load_dotenv()
 # api_key = os.getenv("AZURE_OPENAI_API_KEYAZURE_OPENAI_ENDPOINT")
 
+endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+model_name = os.getenv("AZURE_OPENAI_MODEL_NAME")
+deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME")
+
+subscription_key =os.getenv("AZURE_OPENAI_API_KEY")
+api_version = "2024-12-01-preview"
+
 client = AzureOpenAI(
-    api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-    # base_url=os.getenv("AZURE_OPENAI_ENDPOINT") + "/openai/deployments/gpt-4o-mini/chat/completions"
-    api_version="2024-08-06-preview",
-    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+    api_version=api_version,
+    azure_endpoint=endpoint,
+    api_key=subscription_key,
 )
-
-# openai.api_key = os.getenv("AZURE_OPENAI_API_KEY")
-# openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
-# openai.api_type = "azure"
-# openai.api_version = "2023-07-01-preview"
-
 
 #Tool 1: calculator
 def calculator_tool(expression:str)-> str:
@@ -47,23 +45,23 @@ def agent(user_input):   #Ask LLM if it needs math, wiki or direct answer?
                     1. Calculator
                     2. Wikipedia
                     3. AI generated
+                   
                     If Calculator is needed, extract only the pure math expression (no text). 
                     Return only the expression in ASCII. No LaTeX or words
                     Example:
                     User: "What is 10 -8?" -> calculate 10-8
                 Query : {user_input}
-                Answer only with 'calculator', 'wikipedia' or 'AI generated'."""
+                Answer only with 'calculator' or 'wikipedia' or 'AI generated' """
     decision = client.chat.completions.create(
         model = "gpt-4o",
         messages = [{"role":"user","content":prompt}])
     
     tool_choice = decision.choices[0].message.content.strip().lower()
     print(f"Agent Decision: ",tool_choice)
-    #call tool if needed
+
+    # call tool if needed
     if tool_choice.startswith("calculator"):
-        response = client.chat.completions.create(
-            model= "gpt-4o",
-            messages = [{"role":"user",
+        response = client.chat.completions.create(model= "gpt-4o",messages = [{"role":"user",
                      "content": f"Extract the pure math expression from: {user_input}."
                      "Return only the expression in ASCII. No LaTeX or words"}])
         expression = response.choices[0].message.content.strip()
@@ -96,12 +94,6 @@ if user_question:
         reply = agent(user_question)
         st.markdown("### Response")
         st.write(reply)
-
-# else:
-
-#     st.info("I don't understand your question, please try again")
-
-
 
 
 
