@@ -1,18 +1,31 @@
 import streamlit as st
 import pandas as pd
-from openai import OpenAI
+from openai import AzureOpenAI
 import os
 from dotenv import load_dotenv
 
 
 load_dotenv()  # Load variables from .env
 
-api_key = os.getenv("OPENAI_API_KEY")
+# api_key = os.getenv("OPENAI_API_KEY")
 
 
 # Set your OpenAI API key
 # OpenAI.api_key = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+endpoint = os.getenv("endpoint")
+model_name = os.getenv("model_name")
+deployment = os.getenv("deployment")
+
+subscription_key =os.getenv("subscription_key")
+api_version = "2024-12-01-preview"
+
+client = AzureOpenAI(
+    api_version=api_version,
+    azure_endpoint=endpoint,
+    api_key=subscription_key,
+)
 
 # Title of the app
 st.title("Data Exploration and Insights Agent")
@@ -48,12 +61,12 @@ def generate_insights(df, question):
     Dataset Columns: {df.columns.tolist()}\n
     First few rows:\n{df.head().to_string()}\n\n
     Question: {question}\n
-    Provide a concise and insightful answer.
+    Analyze the data, share the observations in a concise and insightful manner.
     """
-    client = OpenAI()
+    # client = OpenAI()
 
     response = client.chat.completions.create(
-        model="gpt-4",
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": "You are a helpful data analyst."},
             {"role": "user", "content": prompt}
@@ -81,3 +94,4 @@ if uploaded_file:
             st.write(insight)
 else:
     st.info("Please upload a CSV or Excel file to begin.")
+
