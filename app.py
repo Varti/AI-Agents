@@ -7,18 +7,14 @@ from dotenv import load_dotenv
 
 load_dotenv()  # Load variables from .env
 
-# api_key = os.getenv("OPENAI_API_KEY")
-
 
 # Set your OpenAI API key
-# OpenAI.api_key = os.getenv("OPENAI_API_KEY")
-# client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-endpoint = os.getenv("endpoint")
-model_name = os.getenv("model_name")
-deployment = os.getenv("deployment")
+endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+# model_name = os.getenv("model_name")
+# deployment = os.getenv("deployment")
 
-subscription_key =os.getenv("subscription_key")
+subscription_key =os.getenv("AZURE_OPENAI_API_KEY")
 api_version = "2024-12-01-preview"
 
 client = AzureOpenAI(
@@ -94,4 +90,5 @@ if uploaded_file:
             st.write(insight)
 else:
     st.info("Please upload a CSV or Excel file to begin.")
+
 
